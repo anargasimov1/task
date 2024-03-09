@@ -81,8 +81,14 @@ function makeAPIRequest(password, action, params) {
 }
 
 function set_ids(par) {
-  for (let i in par)
-    makeAPIRequest('Valantis', 'get_items', { "ids": par[i] })
+
+  for (let i in par) {
+    console.log(par[i].length)
+    if (par[i].length >= 50) {
+      makeAPIRequest('Valantis', 'get_items', { "ids": par[i].splice(0, 50) })
+    }
+
+  }
 }
 
 makeAPIRequest('Valantis', 'get_ids', { "offset": 0, "limit": 50 })
