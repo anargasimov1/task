@@ -1,0 +1,56 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#ids {
+    border: 2px solid grey;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.id {
+    width: 220px;
+    border: 1px solid grey;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    height: 50px;
+    align-items: center;
+    
+}
+#prew, #next{
+    color: red;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+}
+.count{
+    height: 10px;
+    color: blue;
+}
+.inputs{
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    height: 70px;
+    align-items: center;
+
+}
+.inputs>input{
+    border: 2px solid blue;
+    outline: none;
+    padding-left: 5px;
+    border-radius: 5px;
+    height: 30px;
+}
