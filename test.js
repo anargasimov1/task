@@ -5,9 +5,8 @@ const elements = document.getElementById('elements'),
   counts = document.getElementById('count'),
   url = 'http://api.valantis.store:40000';
 
-let count = 0, toggle = 1, lengthCount = sessionStorage.getItem("length")
+let count = 0, toggle = 1
 
-console.log(lengthCount)
 prew.onclick = () => {
   elements.innerHTML = "";
   if (count > 0) {
@@ -21,7 +20,7 @@ prew.onclick = () => {
 
 next.onclick = () => {
   elements.innerHTML = "";
-  if (count < (lengthCount - 50)) {
+  if (count < (sessionStorage.getItem("length") - 50)) {
     toggle++;
     counts.innerText = toggle;
     count += 50;
@@ -42,17 +41,16 @@ document.oninput = e => {
 
 function generateAuthHeaderValue(password) {
   const date = new Date();
-  const timestamp = date.getUTCFullYear().toString() + (date.getUTCMonth() + 1).toString().padStart(2, '0') + date.getUTCDate().toString().padStart(2, '0');
+  const timestamp = date.getUTCFullYear().toString()
+    + (date.getUTCMonth() + 1).toString().padStart(2, '0')
+    + date.getUTCDate().toString().padStart(2, '0');
   const authString = password + '_' + timestamp;
   return md5(authString).toString();
 }
 
 function makeAPIRequest(password, action, params) {
   const authHeader = generateAuthHeaderValue(password);
-  const requestBody = {
-    action,
-    params
-  };
+  const requestBody = { action, params };
 
   fetch(url, {
     method: 'POST',
@@ -78,26 +76,29 @@ function makeAPIRequest(password, action, params) {
 }
 
 function set_ids(par) {
+  let uniqIds = []
   elements.innerHTML = "";
   let ids = [];
   for (let i in par) {
     for (let j of par[i])
       ids.push(j)
   }
-  makeAPIRequest('Valantis', 'get_items', { 'ids': ids.splice(0, 50) })
+  uniqIds = [... new Set(ids)]
+  makeAPIRequest('Valantis', 'get_items', { 'ids': uniqIds.splice(0, 50) })
 }
 
 function addItems(par) {
-  for (let i in par)
+  for (let i in par) {
     for (let j of par[i]) {
       elements.innerHTML += `
-        <div class='id'>
-        <div>id: ${j.id}</div>
-        <div>brand: ${j.brand}</div>
-        <div>product: ${j.product}</div>
-        <div>price: ${j.price}</div>
-        </div> `
+      <div class='id'>
+      <div>id: ${j.id}</div>
+      <div>brand: ${j.brand}</div>
+      <div>product: ${j.product}</div>
+      <div>price: ${j.price}</div>
+      </div> `
     }
+  }
 }
 
 makeAPIRequest('Valantis', 'get_ids')
